@@ -5,6 +5,7 @@ import { FiAward } from "react-icons/fi";
 import { CiLogin, CiLogout } from "react-icons/ci";
 import { IoClose } from "react-icons/io5";
 import { IoMdMenu } from "react-icons/io";
+import logo from "../assets/logo.png"
 
 const Navbar = ({ logoSrc }) => {
   const navigate = useNavigate();
@@ -32,14 +33,6 @@ const Navbar = ({ logoSrc }) => {
   };
   return (
     <nav className={navbarStyles.nav}>
-      <div
-        style={{ backgroundImage: navbarStyles.decorativePatternBackground }}
-        className={navbarStyles.decorativePattern}
-      ></div>
-
-      <div className={navbarStyles.bubble1}></div>
-      <div className={navbarStyles.bubble2}></div>
-      <div className={navbarStyles.bubble3}></div>
 
       <div className={navbarStyles.container}>
         {/* icon */}
@@ -48,7 +41,7 @@ const Navbar = ({ logoSrc }) => {
             <div className={navbarStyles.logoInner}>
               <img
                 src={
-                  logoSrc ||
+                  logo ||
                   "https://yt3.googleusercontent.com/eD5QJD-9uS--ekQcA-kDTCu1ZO4d7d7BTKLIVH-EySZtDVw3JZcc-bHHDOMvxys92F7rD8Kgfg=s900-c-k-c0x00ffffff-no-rj"
                 }
                 alt="QuizMaster logo"
@@ -141,6 +134,10 @@ const Navbar = ({ logoSrc }) => {
           )}
         </div>
       </div>
+
+    
+    <style>{navbarStyles.animations}</style>
+
     </nav>
   );
 };
