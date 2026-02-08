@@ -3,29 +3,33 @@ import { navbarStyles } from "../assets/dummyStyle";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { FiAward } from "react-icons/fi";
 import { CiLogin, CiLogout } from "react-icons/ci";
+import { IoClose } from "react-icons/io5";
+import { IoMdMenu } from "react-icons/io";
 
 const Navbar = ({ logoSrc }) => {
   const navigate = useNavigate();
   const [loggedIn, setloggedIn] = useState(false);
   const [menuOpen, setmenuOpen] = useState(false);
 
-  const handleLogout=()=>{
-    try{
-        localStorage.removeItem("authToken")
-        localStorage.clear()
-    }catch(err){
-        console.log("Failed to logout")
-        throw new err
+  const handleLogout = () => {
+    try {
+      localStorage.removeItem("authToken");
+      localStorage.clear();
+    } catch (err) {
+      console.log("Failed to logout");
+      throw new err();
     }
-    window.dispatchEvent(new CustomEvent('authChanged',{detail:{user:null}}));
-    setmenuOpen(false)
-    try{
-        navigate("/login")
-    }catch(err){
-        console.log("falied to move to login page",err)
-        window.location.href="/login"
+    window.dispatchEvent(
+      new CustomEvent("authChanged", { detail: { user: null } }),
+    );
+    setmenuOpen(false);
+    try {
+      navigate("/login");
+    } catch (err) {
+      console.log("falied to move to login page", err);
+      window.location.href = "/login";
     }
-  }
+  };
   return (
     <nav className={navbarStyles.nav}>
       <div
@@ -53,14 +57,14 @@ const Navbar = ({ logoSrc }) => {
             </div>
           </Link>
         </div>
-        
+
         {/* Title */}
         <div className={navbarStyles.titleContainer}>
           <div className={navbarStyles.titleBackground}>
             <h1 className={navbarStyles.titleText}>Dev Sprint</h1>
           </div>
         </div>
-        
+
         {/* results button */}
         <div className={navbarStyles.desktopButtonsContainer}>
           <div className={navbarStyles.spacer}></div>
@@ -69,19 +73,73 @@ const Navbar = ({ logoSrc }) => {
             My Result
           </NavLink>
 
-          {loggedIn?<button onClick={handleLogout} className={navbarStyles.logoutButton}>
-                <CiLogout className={navbarStyles.buttonIcon}/>
-                Logout
-          </button>:<NavLink to={"/login"} className={navbarStyles.loginButton}>
-                <CiLogin className={navbarStyles.buttonIcon}/>
-                Login
-            </NavLink>}
-
+          {loggedIn ? (
+            <button
+              onClick={handleLogout}
+              className={navbarStyles.logoutButton}
+            >
+              <CiLogout className={navbarStyles.buttonIcon} />
+              Logout
+            </button>
+          ) : (
+            <NavLink to={"/login"} className={navbarStyles.loginButton}>
+              <CiLogin className={navbarStyles.buttonIcon} />
+              Login
+            </NavLink>
+          )}
         </div>
 
-        
-        
+        <div className={navbarStyles.mobileMenuContainer}>
+          <button
+            onClick={() => setmenuOpen((prev) => !prev)}
+            className={navbarStyles.menuToggleButton}
+          >
+            {menuOpen ? (
+              <IoClose className={navbarStyles.menuIcon} />
+            ) : (
+              <IoMdMenu className={navbarStyles.menuIcon} />
+            )}
+          </button>
 
+          {menuOpen && (
+            <div className={navbarStyles.mobileMenuPanel}>
+              <ul className={navbarStyles.mobileMenuList}>
+                <li>
+                  <NavLink
+                    to={"/result"}
+                    className={navbarStyles.mobileMenuItem}
+                    onClick={() => setmenuOpen(false)}
+                  >
+                    <FiAward className={navbarStyles.mobileMenuIcon} />
+                    My result
+                  </NavLink>
+                </li>
+                {loggedIn ? (
+                  <li>
+                    <button
+                      onClick={handleLogout}
+                      className={navbarStyles.mobileMenuItem}
+                    >
+                      <CiLogout className={navbarStyles.mobileMenuIcon} />
+                      Logout
+                    </button>
+                  </li>
+                ) : (
+                  <li>
+                    <NavLink
+                      to={"/login"}
+                      className={navbarStyles.mobileMenuItem}
+                      onClick={() => setmenuOpen(false)}
+                    >
+                      <CiLogin className={navbarStyles.mobileMenuIcon} />
+                      Login
+                    </NavLink>
+                  </li>
+                )}
+              </ul>
+            </div>
+          )}
+        </div>
       </div>
     </nav>
   );
