@@ -27,8 +27,7 @@ const Login = ({ onLoginSuccess = null }) => {
   const handleSubmit = () => {};
   return (
     <div className={loginStyles.pageContainer}>
-      <div className={loginStyles.bubble1}></div>
-      <div className={loginStyles.bubble2}></div>
+
 
       <Link to="/" className={loginStyles.backButton}>
         <IoIosArrowBack className={loginStyles.backButtonIcon} />
@@ -40,17 +39,20 @@ const Login = ({ onLoginSuccess = null }) => {
           <div className={loginStyles.formWrapper}>
             <div className={loginStyles.animatedBorder}>
               <div className={loginStyles.formContent}>
+
                 <h2 className={loginStyles.heading}>
                   <span className={loginStyles.headingIcon}>
                     <CiLogin className={loginStyles.headingIconInner} />
                   </span>
                   <span className={loginStyles.headingText}>Login</span>
                 </h2>
+
                 <p className={loginStyles.subtitle}>
                   Sign in to continue to Dev Spring. Solve, Practice, Run,
                   Improve
                 </p>
-
+               
+                {/* email */}
                 <label className={loginStyles.label}>
                   <span className={loginStyles.labelText}>Email</span>
                   <div className={loginStyles.inputContainer}>
@@ -79,7 +81,8 @@ const Login = ({ onLoginSuccess = null }) => {
                     <p className={loginStyles.errorText}>{errors.email}</p>
                   )}
                 </label>
-
+                
+                {/* password */}
                 <label className={loginStyles.label}>
                   <span className={loginStyles.labelText}>Password</span>
                   <div className={loginStyles.inputContainer}>
@@ -122,9 +125,12 @@ const Login = ({ onLoginSuccess = null }) => {
                     <p className={loginStyles.errorText}>{errors.password}</p>
                   )}
                 </label>
+
                 {submitError && (
                   <p className={loginStyles.submitError}>{submitError}</p>
                 )}
+                
+                {/* signin and signup button */}
                 <div className={loginStyles.buttonsContainer}>
                   <button
                     className={loginStyles.submitButton}
@@ -151,9 +157,8 @@ const Login = ({ onLoginSuccess = null }) => {
                       </Link>
                     </div>
                   </div>
-
-
                 </div>
+              
               </div>
             </div>
           </div>
