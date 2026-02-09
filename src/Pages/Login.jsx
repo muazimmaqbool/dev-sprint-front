@@ -141,6 +141,18 @@ const Login = ({ onLoginSuccess = null }) => {
                       </>
                     )}
                   </button>
+                  <div className={loginStyles.signupContainer}>
+                    <div className={loginStyles.signupContent}>
+                      <span className={loginStyles.signupText}>
+                        Don't have an account?
+                      </span>
+                      <Link to="/signup" className={loginStyles.signupLink}>
+                      Create Account
+                      </Link>
+                    </div>
+                  </div>
+
+
                 </div>
               </div>
             </div>
