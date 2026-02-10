@@ -17,19 +17,59 @@ const Login = ({ onLoginSuccess = null }) => {
   const [loading, setLoading] = useState(false);
   const [submitError, setSubmitError] = useState("");
 
-    const validate = () => {
-      const e = {};
-      if (!email) e.email = "Email is required";
-      else if (!isValidEmail(email)) e.email = "Please enter a valid email";
+  const validate = () => {
+    const e = {};
+    if (!email) e.email = "Email is required";
+    else if (!isValidEmail(email)) e.email = "Please enter a valid email";
 
-      if (!password) e.password = "Password is required";
-      return e;
-    };
-  const handleSubmit = () => {};
+    if (!password) e.password = "Password is required";
+    return e;
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setSubmitError("");
+    const validation = validate();
+    setErrors(validation);
+
+    //if the validation occurs the function stops and error will be displayed
+    if (Object.keys(validation).length) return;
+
+    setLoading(true);
+
+    try {
+      const res = await fetch("api here", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email: email.trim().toLowerCase(),
+          password: password,
+        }),
+      });
+
+      if (!res.ok) {
+        setLoading(false);
+        throw new Error("Failed to login");
+      }
+      setLoading(false);
+      const data=res.json();
+      if(data?.token){
+        localStorage.setItem('authToken',data?.token)
+        localStorage.setItem("currentUser",JSON.stringify(data.user || {email:email}))
+      }
+
+      if(typeof onLoginSuccess==="function")onLoginSuccess(data.user|| {email:email})
+      navigate("/",{replace:true})
+    } catch (err) {
+      setLoading(false)
+      console.log("Error while login:", err);
+      setSubmitError("Network error occured")
+    }finally{
+      setLoading(false)
+    }
+  };
   return (
     <div className={loginStyles.pageContainer}>
-
-
       <Link to="/" className={loginStyles.backButton}>
         <IoIosArrowBack className={loginStyles.backButtonIcon} />
         <span className={loginStyles.backButtonText}>Home</span>
@@ -40,7 +80,6 @@ const Login = ({ onLoginSuccess = null }) => {
           <div className={loginStyles.formWrapper}>
             <div className={loginStyles.animatedBorder}>
               <div className={loginStyles.formContent}>
-
                 <h2 className={loginStyles.heading}>
                   <span className={loginStyles.headingIcon}>
                     <CiLogin className={loginStyles.headingIconInner} />
@@ -52,7 +91,7 @@ const Login = ({ onLoginSuccess = null }) => {
                   Sign in to continue to Dev Spring. Solve, Practice, Run,
                   Improve
                 </p>
-               
+
                 {/* email */}
                 <label className={loginStyles.label}>
                   <span className={loginStyles.labelText}>Email</span>
@@ -82,7 +121,7 @@ const Login = ({ onLoginSuccess = null }) => {
                     <p className={loginStyles.errorText}>{errors.email}</p>
                   )}
                 </label>
-                
+
                 {/* password */}
                 <label className={loginStyles.label}>
                   <span className={loginStyles.labelText}>Password</span>
@@ -130,7 +169,7 @@ const Login = ({ onLoginSuccess = null }) => {
                 {submitError && (
                   <p className={loginStyles.submitError}>{submitError}</p>
                 )}
-                
+
                 {/* signin and signup button */}
                 <div className={loginStyles.buttonsContainer}>
                   <button
@@ -154,12 +193,11 @@ const Login = ({ onLoginSuccess = null }) => {
                         Don't have an account?
                       </span>
                       <Link to="/signup" className={loginStyles.signupLink}>
-                      Create Account
+                        Create Account
                       </Link>
                     </div>
                   </div>
                 </div>
-              
               </div>
             </div>
           </div>
