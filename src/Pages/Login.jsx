@@ -6,6 +6,7 @@ import { CiLogin } from "react-icons/ci";
 import { RiLockPasswordFill } from "react-icons/ri";
 import { FaEye } from "react-icons/fa";
 
+const isValidEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 const Login = ({ onLoginSuccess = null }) => {
   const navigate = useNavigate();
 
@@ -16,14 +17,14 @@ const Login = ({ onLoginSuccess = null }) => {
   const [loading, setLoading] = useState(false);
   const [submitError, setSubmitError] = useState("");
 
-  //   const validate = () => {
-  //     const e = {};
-  //     if (!email) e.email = "Email is required";
-  //     else if (!isValidEmail(email)) e.email = "Please enter a valid email";
+    const validate = () => {
+      const e = {};
+      if (!email) e.email = "Email is required";
+      else if (!isValidEmail(email)) e.email = "Please enter a valid email";
 
-  //     if (!password) e.password = "Password is required";
-  //     return e;
-  //   };
+      if (!password) e.password = "Password is required";
+      return e;
+    };
   const handleSubmit = () => {};
   return (
     <div className={loginStyles.pageContainer}>
