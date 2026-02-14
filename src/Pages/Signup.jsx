@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import { signupStyles } from "../assets/dummyStyle";
 import { Link, useNavigate } from "react-router-dom";
 import { IoIosArrowBack, IoIosEyeOff, IoIosMail } from "react-icons/io";
-import { CiCircleCheck } from "react-icons/ci";
 import { RiLockPasswordFill } from "react-icons/ri";
 import { FaEye, FaUser } from "react-icons/fa";
+import { AiOutlineUserAdd } from "react-icons/ai";
 
 const isValidEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
@@ -108,7 +108,7 @@ const Signup = ({ onSignupSuccess = null }) => {
               {/* heading */}
               <h2 className={signupStyles.heading}>
                 <span className={signupStyles.headingIcon}>
-                  <CiCircleCheck className={signupStyles.headingIconInner} />
+                  <AiOutlineUserAdd className={signupStyles.headingIconInner} />
                 </span>
                 <span className={signupStyles.headingText}>Create Account</span>
               </h2>
@@ -237,19 +237,24 @@ const Signup = ({ onSignupSuccess = null }) => {
                   disabled={loading}
                   type="submit"
                 >
-                  {loading ? (
-                    "Creating account..."
-                  ) : (
-                    "Create Account"
-                  )}
-                </button>  
+                  {loading ? "Creating account..." : "Create Account"}
+                </button>
               </div>
-
-                
-
             </div>
           </div>
         </form>
+
+        {/* if already have an acccount */}
+        <div className={signupStyles.loginPromptContainer}>
+          <div className={signupStyles.loginPromptContent}>
+            <span className={signupStyles.loginPromptText}>
+              Already have an account?
+            </span>
+            <Link to="/login" className={signupStyles.loginPromptLink}>
+              Login
+            </Link>
+          </div>
+        </div>
       </div>
     </div>
   );
