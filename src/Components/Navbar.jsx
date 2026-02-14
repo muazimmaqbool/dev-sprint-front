@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { navbarStyles } from "../assets/dummyStyle";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { FiAward } from "react-icons/fi";
@@ -31,6 +31,28 @@ const Navbar = ({ logoSrc }) => {
       window.location.href = "/login";
     }
   };
+
+  //Keep track of whether the user is logged in or not.
+  useEffect(() => {
+    try {
+      const token = localStorage.getItem("authToken");
+      if(token){
+        setloggedIn(true)
+      }
+    } catch (e) {
+      setloggedIn(false);
+    }
+
+    // Function that runs when login/logout happens
+    const handler = (ev) => {
+      const detailUser = ev?.detail?.user ?? null;
+      // !! means: convert to boolean
+      setloggedIn(!!detailUser);
+    };
+    window.addEventListener("authChanged", handler);
+
+    return () => window.removeEventListener("authChanged", handler);
+  }, []);
   return (
     <nav className={navbarStyles.nav}>
 
