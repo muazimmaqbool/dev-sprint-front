@@ -38,34 +38,46 @@ const Login = ({ onLoginSuccess = null }) => {
     setLoading(true);
 
     try {
-      const res = await fetch("api here", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          email: email.trim().toLowerCase(),
-          password: password,
-        }),
-      });
+      const res = await fetch(
+        `${import.meta.env.VITE_API_BASE_URL}/user/login`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            email: email.trim().toLowerCase(),
+            password: password,
+          }),
+        },
+      );
 
       if (!res.ok) {
         setLoading(false);
-        throw new Error("Failed to login");
-      }
-      setLoading(false);
-      const data=res.json();
-      if(data?.token){
-        localStorage.setItem('authToken',data?.token)
-        localStorage.setItem("currentUser",JSON.stringify(data.user || {email:email}))
+        const errorMessage = await res.json();
+        // console.log("errorMessage", errorMessage);
+        setSubmitError(errorMessage?.message);
+      } else {
+        setLoading(false);
+        const data = await res.json();
+        if (data?.token) {
+          // console.log("data:", data);
+          localStorage.setItem("authToken", data?.token);
+          localStorage.setItem(
+            "currentUser",
+            JSON.stringify(data.user || { email: email }),
+          );
+        }
+
+        if (typeof onLoginSuccess === "function")onLoginSuccess(data.user || { email: email });
+        navigate("/",{replace:true})
       }
 
-      if(typeof onLoginSuccess==="function")onLoginSuccess(data.user|| {email:email})
-      navigate("/",{replace:true})
+      //
     } catch (err) {
-      setLoading(false)
+      setLoading(false);
       console.log("Error while login:", err);
-      setSubmitError("Network error occured")
-    }finally{
-      setLoading(false)
+      setSubmitError("Network error occured");
+    } finally {
+      setLoading(false);
     }
   };
   return (
@@ -175,6 +187,7 @@ const Login = ({ onLoginSuccess = null }) => {
                   <button
                     className={loginStyles.submitButton}
                     disabled={loading}
+                    type="submit"
                   >
                     {loading ? (
                       "signing in..."
