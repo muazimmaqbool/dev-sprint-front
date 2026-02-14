@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import { signupStyles } from "../assets/dummyStyle";
 import { Link, useNavigate } from "react-router-dom";
-import { IoIosArrowBack } from "react-icons/io";
+import { IoIosArrowBack, IoIosEyeOff, IoIosMail } from "react-icons/io";
 import { CiCircleCheck } from "react-icons/ci";
+import { RiLockPasswordFill } from "react-icons/ri";
+import { FaEye, FaUser } from "react-icons/fa";
 
 const isValidEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
@@ -110,6 +112,116 @@ const Signup = ({ onSignupSuccess = null }) => {
                 </span>
                 <span className={signupStyles.headingText}>Create Account</span>
               </h2>
+              {/*subtitle */}
+              <p className={signupStyles.subtitle}>
+                Sign up to continue to Dev Sprint. Solve, Practice, Run, Improve
+              </p>
+
+              {/* form fields */}
+
+              {/* name */}
+               <label className={signupStyles.label}>
+                <span className={signupStyles.labelText}>Name</span>
+                <div className={signupStyles.inputContainer}>
+                  <span className={signupStyles.inputIcon}>
+                    <FaUser className={signupStyles.inputIconInner} />
+                  </span>
+                  <input
+                    type="text"
+                    name="name"
+                    value={name}
+                    onChange={(e) => {
+                      setName(e.target.value);
+                      if (errors.name) {
+                        setErrors((prev) => ({
+                          ...prev,
+                          name: undefined,
+                        }));
+                      }
+                    }}
+                    className={`${signupStyles.input} ${errors.name ? signupStyles.inputError : signupStyles.inputNormal}`}
+                    placeholder="Your full name"
+                    required
+                  />
+                </div>
+                {errors && errors.name && (
+                  <p className={signupStyles.errorText}>{errors.name}</p>
+                )}
+              </label>
+
+              {/* email */}
+              <label className={signupStyles.label}>
+                <span className={signupStyles.labelText}>Email</span>
+                <div className={signupStyles.inputContainer}>
+                  <span className={signupStyles.inputIcon}>
+                    <IoIosMail className={signupStyles.inputIconInner} />
+                  </span>
+                  <input
+                    type="email"
+                    name="email"
+                    value={email}
+                    onChange={(e) => {
+                      setEmail(e.target.value);
+                      if (errors.email) {
+                        setErrors((prev) => ({
+                          ...prev,
+                          email: undefined,
+                        }));
+                      }
+                    }}
+                    className={`${signupStyles.input} ${errors.email ? signupStyles.inputError : signupStyles.inputNormal}`}
+                    placeholder="your@example.com"
+                    required
+                  />
+                </div>
+                {errors && errors.email && (
+                  <p className={signupStyles.errorText}>{errors.email}</p>
+                )}
+              </label>
+
+              {/* password */}
+              <label className={signupStyles.label}>
+                <span className={signupStyles.labelText}>Password</span>
+                <div className={signupStyles.inputContainer}>
+                  <span className={signupStyles.inputIcon}>
+                    <RiLockPasswordFill
+                      className={signupStyles.inputIconInner}
+                    />
+                  </span>
+                  <input
+                    type={showPassword ? "text" : "password"}
+                    name="password"
+                    value={password}
+                    onChange={(e) => {
+                      setPassword(e.target.value);
+                      if (errors.email) {
+                        setErrors((prev) => ({
+                          ...prev,
+                          password: undefined,
+                        }));
+                      }
+                    }}
+                    className={`${signupStyles.input} ${signupStyles.passwordInput} ${errors.password ? signupStyles.inputError : signupStyles.inputNormal}`}
+                    placeholder="enter your password"
+                    required
+                  />
+                  <button
+                    onClick={() => setShowPassword((prev) => !prev)}
+                    className={signupStyles.passwordToggle}
+                  >
+                    {showPassword ? (
+                      <IoIosEyeOff className={signupStyles.passwordToggleIcon} />
+                    ) : (
+                      <FaEye className={signupStyles.passwordToggleIcon} />
+                    )}
+                  </button>
+                </div>
+                {errors && errors.password && (
+                  <p className={signupStyles.errorText}>{errors.password}</p>
+                )}
+              </label>
+
+
             </div>
           </div>
         </form>

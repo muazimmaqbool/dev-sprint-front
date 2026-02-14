@@ -92,17 +92,20 @@ const Login = ({ onLoginSuccess = null }) => {
           <div className={loginStyles.formWrapper}>
             <div className={loginStyles.animatedBorder}>
               <div className={loginStyles.formContent}>
+                {/* heading */}
                 <h2 className={loginStyles.heading}>
                   <span className={loginStyles.headingIcon}>
                     <CiLogin className={loginStyles.headingIconInner} />
                   </span>
                   <span className={loginStyles.headingText}>Login</span>
                 </h2>
-
+            {/*subtitle */}
                 <p className={loginStyles.subtitle}>
-                  Sign in to continue to Dev Spring. Solve, Practice, Run,
+                  Sign in to continue to Dev Sprint. Solve, Practice, Run,
                   Improve
                 </p>
+
+                {/* form fields */}
 
                 {/* email */}
                 <label className={loginStyles.label}>
