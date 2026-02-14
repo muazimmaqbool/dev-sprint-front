@@ -120,7 +120,7 @@ const Signup = ({ onSignupSuccess = null }) => {
               {/* form fields */}
 
               {/* name */}
-               <label className={signupStyles.label}>
+              <label className={signupStyles.label}>
                 <span className={signupStyles.labelText}>Name</span>
                 <div className={signupStyles.inputContainer}>
                   <span className={signupStyles.inputIcon}>
@@ -210,7 +210,9 @@ const Signup = ({ onSignupSuccess = null }) => {
                     className={signupStyles.passwordToggle}
                   >
                     {showPassword ? (
-                      <IoIosEyeOff className={signupStyles.passwordToggleIcon} />
+                      <IoIosEyeOff
+                        className={signupStyles.passwordToggleIcon}
+                      />
                     ) : (
                       <FaEye className={signupStyles.passwordToggleIcon} />
                     )}
@@ -221,6 +223,29 @@ const Signup = ({ onSignupSuccess = null }) => {
                 )}
               </label>
 
+              {/* error message */}
+              {submitError && (
+                <p className={signupStyles.submitError} role="alert">
+                  {submitError}
+                </p>
+              )}
+
+              {/* button */}
+              <div className={signupStyles.buttonsContainer}>
+                <button
+                  className={signupStyles.submitButton}
+                  disabled={loading}
+                  type="submit"
+                >
+                  {loading ? (
+                    "Creating account..."
+                  ) : (
+                    "Create Account"
+                  )}
+                </button>  
+              </div>
+
+                
 
             </div>
           </div>
