@@ -62,7 +62,7 @@ const Signup = ({ onSignupSuccess = null }) => {
         setLoading(false);
         const data = await res.json();
         if (data?.token) {
-          // console.log("data:", data);
+        //   console.log("Account created:", data);
           localStorage.setItem("authToken", data?.token);
           localStorage.setItem(
             "currentUser",
