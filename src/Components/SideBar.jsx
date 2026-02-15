@@ -3,6 +3,8 @@ import { sidebarStyles } from "../assets/dummyStyle";
 import questionsData from "../assets/questions";
 import { toast } from "react-toastify";
 import axios from "axios";
+import { FiBookOpen } from "react-icons/fi";
+import { IoClose } from "react-icons/io5";
 
 const SideBar = () => {
   const [selectedTech, setSelectedTech] = useState(null);
@@ -131,35 +133,35 @@ const SideBar = () => {
       return {
         text: "Outstanding!",
         color: "bg-gradient-to-r from-amber-200 to-amber-300",
-        icon: <Sparkles className="text-amber-800" />,
+        //icon: <Sparkles className="text-amber-800" />,
       };
     if (score.percentage >= 75)
       return {
         text: "Excellent!",
         color: "bg-gradient-to-r from-blue-200 to-indigo-200",
-        icon: <Trophy className="text-blue-800" />,
+        //icon: <Trophy className="text-blue-800" />,
       };
     if (score.percentage >= 60)
       return {
         text: "Good Job!",
         color: "bg-gradient-to-r from-green-200 to-teal-200",
-        icon: <Award className="text-green-800" />,
+        //icon: <Award className="text-green-800" />,
       };
     return {
       text: "Keep Practicing",
       color: "bg-gradient-to-r from-gray-200 to-gray-300",
-      icon: <BookOpen className="text-gray-800" />,
+      //icon: <BookOpen className="text-gray-800" />,
     };
   };
   const performance = getPerformanceStatus();
 
-  const getAuthHeader=()=>{
-    const token=localStorage.getItem("authToken")||null;
-    return token?{Authorization:`Bearer ${token}`} : {}
-  }
+  const getAuthHeader = () => {
+    const token = localStorage.getItem("authToken") || null;
+    return token ? { Authorization: `Bearer ${token}` } : {};
+  };
   const submitResult = async () => {
-    if(!submittedRef.current) return
-    if(!selectedTech || !selectedLevel) return
+    if (!submittedRef.current) return;
+    if (!selectedTech || !selectedLevel) return;
 
     const payload = {
       title: `${selectedTech.toUpperCase()} - ${
@@ -171,27 +173,31 @@ const SideBar = () => {
       correct: score.correct,
       wrong: score.total - score.correct,
     };
-    try{
-      submittedRef.current=true
-      toast.info("Saving your result...")
-      const res=await axios.post(`${import.meta.env.VITE_API_BASE_URL}/results`,payload,{
-        header:{
-          "Content-Type":"application/json",
-          ...getAuthHeader()
+    try {
+      submittedRef.current = true;
+      toast.info("Saving your result...");
+      const res = await axios.post(
+        `${import.meta.env.VITE_API_BASE_URL}/results`,
+        payload,
+        {
+          header: {
+            "Content-Type": "application/json",
+            ...getAuthHeader(),
+          },
+          timeout: 10000,
         },
-        timeout:10000
-      })
-      if(res.ok){
-        toast.success("Result saved!")
-      }else{
-        toast.warn("Result not saved...")
-        submittedRef.current=false
+      );
+      if (res.ok) {
+        toast.success("Result saved!");
+      } else {
+        toast.warn("Result not saved...");
+        submittedRef.current = false;
       }
-    }catch (err) {
+    } catch (err) {
       submittedRef.current = false;
       console.error(
         "Error saving result:",
-        err?.response?.data || err.message || err
+        err?.response?.data || err.message || err,
       );
       toast.error("Could not save result. Check console or network.");
     }
@@ -202,7 +208,57 @@ const SideBar = () => {
     }
   }, [showResults]);
 
-  return <div>SideBar</div>;
+  return (
+    <div>
+      {isSidebarOpen && (
+        <div
+          className={sidebarStyles.mobileOverlay}
+          onClick={() => window.innerWidth < 768 && setIsSidebarOpen(false)}
+        ></div>
+      )}
+
+      <div className={sidebarStyles.mainContainer}>
+        <aside
+          ref={asideRef}
+          className={`${sidebarStyles.sidebar} ${isSidebarOpen ? "translate-x-0" : "-translate-x-full"}`}
+        >
+
+          {/* header section */}
+          <div className={sidebarStyles.sidebarHeader}>
+            <div className={sidebarStyles.headerDecoration1}></div>
+            <div className={sidebarStyles.headerDecoration2}></div>
+
+            {/* header text*/}
+            <div className={sidebarStyles.headerContent}>
+              <div className={sidebarStyles.logoContainer}>
+                <div className={sidebarStyles.logoIcon}>
+                  <FiBookOpen size={28} className="text-indigo-700" />
+                </div>
+                <div>
+                  <h1 className={sidebarStyles.logoTitle}>Dev Quiz</h1>
+                  <p className={sidebarStyles.logoSubtitle}>
+                    Test and improve your skills
+                  </p>
+                </div>
+              </div>
+              <button
+                onClick={toggleSidebar}
+                className={sidebarStyles.closeButton}
+              >
+                <IoClose size={20} />
+              </button>
+            </div>
+          </div>
+
+          {/* side bar content section */}
+          <div className={sidebarStyles.sidebarContent}>
+            
+          </div>
+
+        </aside>
+      </div>
+    </div>
+  );
 };
 
 export default SideBar;
