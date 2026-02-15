@@ -13,6 +13,7 @@ const SideBar = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const asideRef = useRef(null);
 
+  //if the innner width is >= 768px then sidebar will be visible else it will be toggle button to open/close sidebar
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth >= 768) setIsSidebarOpen(true);
@@ -23,6 +24,18 @@ const SideBar = () => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
+  //if sidebar is open and width is < 768px then sidebar will collapse
+    useEffect(() => {
+    if (window.innerWidth < 768) {
+      if (isSidebarOpen) document.body.style.overflow = "hidden";
+      else document.body.style.overflow = "";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [isSidebarOpen]);
   return (
     <div>SideBar</div>
   )
