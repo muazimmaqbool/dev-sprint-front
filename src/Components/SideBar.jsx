@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { sidebarStyles } from "../assets/dummyStyle";
 import questionsData from "../assets/questions";
 import { toast } from "react-toastify";
+import axios from "axios";
 
 const SideBar = () => {
   const [selectedTech, setSelectedTech] = useState(null);
@@ -171,7 +172,21 @@ const SideBar = () => {
       wrong: score.total - score.correct,
     };
     try{
-
+      submittedRef.current=true
+      toast.info("Saving your result...")
+      const res=await axios.post(`${import.meta.env.VITE_API_BASE_URL}/results`,payload,{
+        header:{
+          "Content-Type":"application/json",
+          ...getAuthHeader()
+        },
+        timeout:10000
+      })
+      if(res.ok){
+        toast.success("Result saved!")
+      }else{
+        toast.warn("Result not saved...")
+        submittedRef.current=false
+      }
     }catch (err) {
       submittedRef.current = false;
       console.error(
@@ -185,7 +200,6 @@ const SideBar = () => {
     if (showResults) {
       submitResult();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [showResults]);
 
   return <div>SideBar</div>;
