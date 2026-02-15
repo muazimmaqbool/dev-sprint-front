@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { sidebarStyles } from "../assets/dummyStyle";
 import questionsData from "../assets/questions";
+import { toast } from "react-toastify";
 
 const SideBar = () => {
   const [selectedTech, setSelectedTech] = useState(null);
@@ -177,7 +178,7 @@ const SideBar = () => {
         "Error saving result:",
         err?.response?.data || err.message || err
       );
-      // toast.error("Could not save result. Check console or network.");
+      toast.error("Could not save result. Check console or network.");
     }
   };
   useEffect(() => {
