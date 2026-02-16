@@ -5,7 +5,7 @@ import { toast } from "react-toastify";
 import axios from "axios";
 import { FiBookOpen } from "react-icons/fi";
 import { IoClose } from "react-icons/io5";
-// import technologies  from "../assets/technologies";
+import {technologies}  from "../assets/technologies";
 
 const SideBar = () => {
   const [selectedTech, setSelectedTech] = useState(null);
@@ -258,7 +258,7 @@ const SideBar = () => {
                 Technologies
               </h2>
               <span className={sidebarStyles.technologiesCount}>
-                {/* {technologies.length} */}
+                {technologies.length} Options
               </span>
             </div>
           </div>
