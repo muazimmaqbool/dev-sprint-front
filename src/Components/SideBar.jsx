@@ -5,7 +5,7 @@ import { toast } from "react-toastify";
 import axios from "axios";
 import { FiBookOpen } from "react-icons/fi";
 import { IoClose } from "react-icons/io5";
-import {technologies}  from "../assets/technologies";
+import { technologies } from "../assets/technologies";
 
 const SideBar = () => {
   const [selectedTech, setSelectedTech] = useState(null);
@@ -223,7 +223,6 @@ const SideBar = () => {
           ref={asideRef}
           className={`${sidebarStyles.sidebar} ${isSidebarOpen ? "translate-x-0" : "-translate-x-full"}`}
         >
-
           {/* header section */}
           <div className={sidebarStyles.sidebarHeader}>
             <div className={sidebarStyles.headerDecoration1}></div>
@@ -254,15 +253,37 @@ const SideBar = () => {
           {/* side bar content section */}
           <div className={sidebarStyles.sidebarContent}>
             <div className={sidebarStyles.technologiesHeader}>
-              <h2 className={sidebarStyles.technologiesTitle}>
-                Technologies
-              </h2>
+              <h2 className={sidebarStyles.technologiesTitle}>Technologies</h2>
               <span className={sidebarStyles.technologiesCount}>
                 {technologies.length} Options
               </span>
             </div>
+            {/* technologies list */}
+            {technologies &&
+              technologies.map((tech) => {
+                 const Icon = tech.icon;
+                return (
+                  <div key={tech.id} className={sidebarStyles.techItem}>
+                    <button
+                      onClick={() => handleTechSelect(tech.id)}
+                      className={`${sidebarStyles.techButton}
+                ${selectedTech === tech.id ? `${tech.color} ${sidebarStyles.techButtonSelected}` : sidebarStyles.techButtonNormal}`}
+                    >
+                      <div className={sidebarStyles.techButtonContent}>
+                        <span
+                          className={`${sidebarStyles.techIcon} ${tech.color}`}
+                        >
+                          <Icon size={20} />
+                        </span>
+                        <span className={sidebarStyles.techName}>
+                          {tech.name}
+                        </span>
+                      </div>
+                    </button>
+                  </div>
+                );
+              })}
           </div>
-
         </aside>
       </div>
     </div>
