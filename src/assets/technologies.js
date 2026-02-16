@@ -15,7 +15,7 @@ export const technologies = [
   {
     id: "html",
     name: "HTML",
-    icon: <FaHtml5 size={20} />,
+    icon: <FaHtml5 size={20}/>,
     color: "bg-orange-50 text-orange-600 border-orange-200",
   },
   {

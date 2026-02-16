@@ -5,6 +5,7 @@ import { toast } from "react-toastify";
 import axios from "axios";
 import { FiBookOpen } from "react-icons/fi";
 import { IoClose } from "react-icons/io5";
+// import technologies  from "../assets/technologies";
 
 const SideBar = () => {
   const [selectedTech, setSelectedTech] = useState(null);
@@ -252,7 +253,14 @@ const SideBar = () => {
 
           {/* side bar content section */}
           <div className={sidebarStyles.sidebarContent}>
-            
+            <div className={sidebarStyles.technologiesHeader}>
+              <h2 className={sidebarStyles.technologiesTitle}>
+                Technologies
+              </h2>
+              <span className={sidebarStyles.technologiesCount}>
+                {/* {technologies.length} */}
+              </span>
+            </div>
           </div>
 
         </aside>
