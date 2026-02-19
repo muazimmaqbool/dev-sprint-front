@@ -330,6 +330,18 @@ const SideBar = () => {
                 );
               })}
           </div>
+
+          {/*side bar footer*/}
+          <div className={sidebarStyles.sidebarFooter}>
+            <div className={sidebarStyles.footerContent}>
+              <div className={sidebarStyles.footerContentCenter}>
+                <p>Master your skills one quiz at a time</p>
+                <p className={sidebarStyles.footerHighlight}>
+                  Keep learning and keep improving
+                </p>
+              </div>
+            </div>
+          </div>
         </aside>
       </div>
     </div>
