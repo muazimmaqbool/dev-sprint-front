@@ -7,6 +7,7 @@ import { FiBookOpen } from "react-icons/fi";
 import { IoClose } from "react-icons/io5";
 import { technologies } from "../assets/technologies";
 import { FaChevronDown, FaChevronRight } from "react-icons/fa";
+import { levels } from "../assets/levels";
 
 const SideBar = () => {
   const [selectedTech, setSelectedTech] = useState(null);
@@ -298,6 +299,31 @@ const SideBar = () => {
                             }
                           </span>
                         </h3>
+
+                        {levels.map((level) => {
+                          const Icon = level.icon;
+                          return (
+                            <button
+                              key={level.id}
+                              onClick={() => handleSelectLevel(level.id)}
+                              className={`${sidebarStyles.levelButton} ${selectedLevel === level.id ? `${level.color} ${sidebarStyles.levelButtonSelected}` : sidebarStyles.levelButtonNormal}`}
+                            >
+                              <div className={sidebarStyles.levelButtonContent}>
+                                <span
+                                  className={`${sidebarStyles.levelIcon}
+                                ${selectedLevel === level.id ? "bg-white/40" : "bg-gray-100"}
+                                `}
+                                >
+                                  <Icon size={16} />
+                                </span>
+                                <span>{level.name}</span>
+                              </div>
+                              <span className={sidebarStyles.levelQuestions}>
+                                {level.questions}
+                              </span>
+                            </button>
+                          );
+                        })}
                       </div>
                     )}
                   </div>
