@@ -6,6 +6,7 @@ import axios from "axios";
 import { FiBookOpen } from "react-icons/fi";
 import { IoClose } from "react-icons/io5";
 import { technologies } from "../assets/technologies";
+import { FaChevronDown, FaChevronRight } from "react-icons/fa";
 
 const SideBar = () => {
   const [selectedTech, setSelectedTech] = useState(null);
@@ -261,7 +262,7 @@ const SideBar = () => {
             {/* technologies list */}
             {technologies &&
               technologies.map((tech) => {
-                 const Icon = tech.icon;
+                const Icon = tech.icon;
                 return (
                   <div key={tech.id} className={sidebarStyles.techItem}>
                     <button
@@ -279,7 +280,26 @@ const SideBar = () => {
                           {tech.name}
                         </span>
                       </div>
+
+                      {selectedTech === tech.id ? (
+                        <FaChevronDown size={18} className="text-current" />
+                      ) : (
+                        <FaChevronRight size={18} className="text-gray-400" />
+                      )}
                     </button>
+                    {selectedTech === tech.id && (
+                      <div className={sidebarStyles.levelsContainer}>
+                        <h3 className={sidebarStyles.levelsTitle}>
+                          <span>Select Difficulty</span>
+                          <span className={sidebarStyles.techBadge}>
+                            {
+                              technologies.find((t) => t.id === selectedTech)
+                                .name
+                            }
+                          </span>
+                        </h3>
+                      </div>
+                    )}
                   </div>
                 );
               })}
